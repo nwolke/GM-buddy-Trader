@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/GMBuddyTrader.Api/GMBuddyTrader.Api.csproj" />
+    <Project Path="src/GMBuddyTrader.AppHost/GMBuddyTrader.AppHost.csproj" />
+    <Project Path="src/GMBuddyTrader.Domain/GMBuddyTrader.Domain.csproj" />
+    <Project Path="src/GMBuddyTrader.Infrastructure/GMBuddyTrader.Infrastructure.csproj" />
+    <Project Path="src/GMBuddyTrader.ServiceDefaults/GMBuddyTrader.ServiceDefaults.csproj" />
+  </Folder>
+</Solution>

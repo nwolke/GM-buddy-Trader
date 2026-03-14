@@ -416,3 +416,14 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# React/Vite build output
+src/gmbuddy-trader-web/dist/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# npm lock files are tracked but npm cache is not
+src/gmbuddy-trader-web/.env.local
