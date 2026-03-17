@@ -1,0 +1,31 @@
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
+WORKDIR /app
+EXPOSE 8080
+EXPOSE 8081
+
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+
+COPY ["src/GMBuddyTrader.Api/GMBuddyTrader.Api.csproj", "GMBuddyTrader.Api/"]
+COPY ["src/GMBuddyTrader.Domain/GMBuddyTrader.Domain.csproj", "GMBuddyTrader.Domain/"]
+COPY ["src/GMBuddyTrader.Infrastructure/GMBuddyTrader.Infrastructure.csproj", "GMBuddyTrader.Infrastructure/"]
+COPY ["src/GMBuddyTrader.ServiceDefaults/GMBuddyTrader.ServiceDefaults.csproj", "GMBuddyTrader.ServiceDefaults/"]
+
+RUN dotnet restore "GMBuddyTrader.Api/GMBuddyTrader.Api.csproj"
+
+COPY src/GMBuddyTrader.Api/ GMBuddyTrader.Api/
+COPY src/GMBuddyTrader.Domain/ GMBuddyTrader.Domain/
+COPY src/GMBuddyTrader.Infrastructure/ GMBuddyTrader.Infrastructure/
+COPY src/GMBuddyTrader.ServiceDefaults/ GMBuddyTrader.ServiceDefaults/
+
+RUN dotnet build "GMBuddyTrader.Api/GMBuddyTrader.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "GMBuddyTrader.Api/GMBuddyTrader.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "GMBuddyTrader.Api.dll"]

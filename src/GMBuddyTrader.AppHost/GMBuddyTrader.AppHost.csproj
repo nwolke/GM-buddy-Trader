@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsAspireHost>true</IsAspireHost>
+    <!-- AspireHostingSDKVersion tells .NET SDK we use NuGet-based Aspire (not the deprecated workload) -->
+    <AspireHostingSDKVersion>9.2.0</AspireHostingSDKVersion>
+    <UserSecretsId>gmbuddy-trader-apphost</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.2.0" />
+    <PackageReference Include="Aspire.Hosting.NodeJs" Version="9.2.0" />
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="9.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GMBuddyTrader.Api\GMBuddyTrader.Api.csproj" IsAspireProjectResource="true" />
+  </ItemGroup>
+
+</Project>

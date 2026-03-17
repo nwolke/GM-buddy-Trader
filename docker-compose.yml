@@ -1,0 +1,48 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: gmbuddy_trader
+      POSTGRES_USER: trader
+      POSTGRES_PASSWORD: trader_dev_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U trader -d gmbuddy_trader"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    environment:
+      ConnectionStrings__gmbuddy-trader-db: "Host=postgres;Port=5432;Database=gmbuddy_trader;Username=trader;Password=trader_dev_pass"
+      AWS__Cognito__Authority: "${COGNITO_AUTHORITY}"
+      AWS__Cognito__ClientId: "${COGNITO_CLIENT_ID}"
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://+:8080
+    ports:
+      - "5001:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+      args:
+        VITE_API_URL: http://localhost:5001
+        VITE_COGNITO_USER_POOL_ID: "${COGNITO_USER_POOL_ID}"
+        VITE_COGNITO_CLIENT_ID: "${COGNITO_CLIENT_ID}"
+    ports:
+      - "3000:80"
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:

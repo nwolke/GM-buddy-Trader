@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.13" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GMBuddyTrader.Domain\GMBuddyTrader.Domain.csproj" />
+    <ProjectReference Include="..\GMBuddyTrader.Infrastructure\GMBuddyTrader.Infrastructure.csproj" />
+    <ProjectReference Include="..\GMBuddyTrader.ServiceDefaults\GMBuddyTrader.ServiceDefaults.csproj" />
+  </ItemGroup>
+
+</Project>
